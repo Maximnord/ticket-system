@@ -1,0 +1,16 @@
+{
+  "name": "ticket-stats-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bonus Node.js service that augments the Laravel /api/tickets/stats endpoint with derived metrics.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
+  }
+}
