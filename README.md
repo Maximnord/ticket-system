@@ -1,16 +1,29 @@
 # Ticket Management System
 
-Full-stack ticket management system built with **Laravel 11 (API)** and **React + Vite (Frontend)**.
+Full-stack ticket management system built with **Laravel 13 (API)** and **React + Vite (Frontend)**.
 Includes a bonus **Node.js / Express** stats service.
+
+## 🚀 Live Demo
+
+**[https://ticket-system-production-f728.up.railway.app](https://ticket-system-production-f728.up.railway.app)**
+
+Deployed on [Railway](https://railway.app) (Laravel app + managed MySQL). The DB is seeded with 5 users and 25 tickets across all statuses and priorities so you can try filtering, sorting, status changes, and assignment right away.
+
+Useful endpoints to hit directly:
+
+- [`/api/tickets`](https://ticket-system-production-f728.up.railway.app/api/tickets) — full list (JSON)
+- [`/api/tickets?status=open&priority=high&sort_by=created_at&order=desc`](https://ticket-system-production-f728.up.railway.app/api/tickets?status=open&priority=high&sort_by=created_at&order=desc) — filtered + sorted
+- [`/api/tickets/stats`](https://ticket-system-production-f728.up.railway.app/api/tickets/stats) — complex aggregate query
+- [`/api/users`](https://ticket-system-production-f728.up.railway.app/api/users) — assignable users
 
 ---
 
-## Requirements
+## Requirements (local dev)
 
-- PHP 8.2+
+- PHP 8.3+
 - Composer
 - Node.js 18+ & npm
-- A SQL database (MySQL recommended; SQLite works out-of-the-box; SQL Server / PostgreSQL also supported by changing `DB_CONNECTION`)
+- A SQL database (MySQL recommended; SQL Server / PostgreSQL / SQLite also supported by changing `DB_CONNECTION`)
 
 ---
 
@@ -215,7 +228,16 @@ Implemented — see `resources/js/components/TicketSystem.jsx`.
 ### 2. Node.js Stats Service
 Implemented under [`stats-service/`](stats-service/). It calls the Laravel API and exposes a richer `/stats` endpoint with derived metrics (percentages, average ticket age, "needs attention" list).
 
-### 3. AWS Deployment Outline
+### 3. Live Deployment on Railway
+
+This project is currently deployed on **Railway** ([live link](https://ticket-system-production-f728.up.railway.app)) using:
+
+- **Nixpacks** auto-build from this GitHub repo (`nixpacks.toml` at the root): installs Composer + npm, builds Vite assets into `public/build/`, caches config/routes/views, runs migrations on boot.
+- **Managed MySQL** plugin: `DB_*` env vars are wired via Railway service references.
+- **HTTPS** via Railway's edge — `URL::forceScheme('https')` + `trustProxies('*')` so Laravel generates correct asset URLs behind the proxy.
+- Auto-redeploy on every `git push` to `main`.
+
+### 4. AWS Deployment Outline
 
 | Concern        | Service                                                       |
 |----------------|---------------------------------------------------------------|
